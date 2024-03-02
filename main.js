@@ -8,8 +8,8 @@ const postListCont = document.querySelector(".postListContainer");
 //   xhr.responseType = "json";
 //   xhr.send();
 
-//   xhr,
-//     (onload = () => {
+//   xhr.
+//     onload = () => {
 //       if (xhr.status === 200) {
 //         displayResults(xhr.response);
 //       } else {
@@ -31,20 +31,44 @@ const postListCont = document.querySelector(".postListContainer");
 
 //Fetch using async await
 
-async function fetchUsingAsync() {
-  const res = await fetch("https:jsonplaceholder.typicode.com/posts", {
-    method: "GET",
+// async function fetchUsingAsync() {
+//   const res = await fetch("https:jsonplaceholder.typicode.com/posts", {
+//     method: "GET",
+//   });
+
+//   const result = await res.json();
+
+//   displayResults(result)
+// }
+function helperMethod(method, url) {
+  const prom = new Promise((res, rej) => {
+    const xgr = new XMLHttpRequest();
+    xgr.open(method, url);
+    xgr.responseType = "json";
+    xgr.send();
+
+    xgr.onload = () => {
+      if (xgr.status === 200) {
+        res(xgr.response);
+      } else {
+        rej(xgr.response);
+      }
+    };
   });
 
-  const result = await res.json();
+  return prom;
+}
 
-  displayResults(result)
+async function fetchUsingXHRAsync() {
+  const res = await helperMethod(
+    "GET",
+    "https:jsonplaceholder.typicode.com/posts"
+  );
+  displayResults(res);
 }
 
 function displayResults(posts) {
-  postListCont.innerHTML = posts
-    .map(
-      (postItem) => `
+  postListCont.innerHTML = posts.map((postItem) => `
     <div class='postitem'>
     <h3>${postItem.title}</h3>
     <p>${postItem.body}</p>
@@ -56,4 +80,5 @@ function displayResults(posts) {
 
 // fetchUsingXHR();
 // fetchUsingFetch()
-fetchUsingAsync()
+// fetchUsingAsync()
+fetchUsingXHRAsync();
