@@ -18,17 +18,28 @@ const postListCont = document.querySelector(".postListContainer");
 //     });
 // }
 
-function fetchUsingFetch() {
-  const fetchReq = fetch("https:jsonplaceholder.typicode.com/posts", {
+// function fetchUsingFetch() {
+//   const fetchReq = fetch("https:jsonplaceholder.typicode.com/posts", {
+//     method: "GET",
+//   });
+
+//   fetchReq
+//     .then((response) => response.json())
+//     .then((result) => displayResults(result))
+//     .catch((e) => console.log(e));
+// }
+
+//Fetch using async await
+
+async function fetchUsingAsync() {
+  const res = await fetch("https:jsonplaceholder.typicode.com/posts", {
     method: "GET",
   });
 
-  fetchReq
-    .then((response) => response.json())
-    .then((result) => displayResults(result))
-    .catch((e) => console.log(e));
+  const result = await res.json();
+
+  displayResults(result)
 }
-fetchUsingFetch()
 
 function displayResults(posts) {
   postListCont.innerHTML = posts
@@ -44,3 +55,5 @@ function displayResults(posts) {
 }
 
 // fetchUsingXHR();
+// fetchUsingFetch()
+fetchUsingAsync()
